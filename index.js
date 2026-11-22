@@ -17,6 +17,7 @@
 import * as secrets from '../../../secrets.js';
 import { DeviceFlowError, pollForKey, startDeviceFlow } from './device-flow.js';
 import { bindKey, keyLabel, storeKey } from './key-store.js';
+import { SETUP_GUIDE_URL, checkProviderSupport } from './support.js';
 
 // Type from SillyTavern, for editors. It resolves when this folder sits in SillyTavern's
 // public/scripts/extensions/third-party/ folder. It is a comment only and changes nothing at runtime.
@@ -42,7 +43,7 @@ const MODELS = { mode: 'discover' };
 const AUTH = { mode: 'bearer', required: true };
 
 const LINKS = {
-    documentationUrl: 'https://docs.openference.com/integrations/sillytavern',
+    documentationUrl: SETUP_GUIDE_URL,
     supportUrl: 'https://openference.com/contact',
     note: 'Keep Unlocked Context Size off and cap context at 128K to 200K to avoid Blocked replies.',
 };
@@ -74,13 +75,20 @@ let abortController = null;
 let flowId = 0;
 /** @type {Registration|null} */
 let registration = null;
+/** "Activate" and "enable" can both fire, so the notice for an unsupported SillyTavern is shown once per page load. */
+let unsupportedNoticeShown = false;
 
 function isActive() {
-    return Boolean(registration) && SillyTavern.getContext().customProviders.active() === registration.id;
+    return registration !== null && SillyTavern.getContext().customProviders.active() === registration.id;
 }
 
-function toast(kind, message) {
-    globalThis.toastr?.[kind]?.(message, PROVIDER_LABEL);
+/**
+ * @param {'info'|'success'|'warning'|'error'} kind
+ * @param {string} message
+ * @param {Record<string, unknown>} [options] toastr options
+ */
+function toast(kind, message, options) {
+    globalThis.toastr?.[kind]?.(message, PROVIDER_LABEL, options);
 }
 
 /**
@@ -275,11 +283,20 @@ export function onActivate() {
         return;
     }
 
-    const { customProviders, eventSource, eventTypes } = SillyTavern.getContext();
-    if (!customProviders || customProviders.apiVersion !== 1) {
-        console.warn(`${LOG_PREFIX} This SillyTavern version does not support Custom providers (API version 1), so Openference was not added. Use the Custom (OpenAI-compatible) source instead: https://docs.openference.com/integrations/sillytavern`);
+    const context = SillyTavern.getContext();
+    const support = checkProviderSupport(context);
+    if (!support.supported) {
+        // Say why nothing was added, instead of leaving a gap where the source should be. The stable release has no
+        // Custom provider API yet, so this is what someone sees after installing on it.
+        console.warn(`${LOG_PREFIX} ${support.message}`);
+        if (!unsupportedNoticeShown) {
+            unsupportedNoticeShown = true;
+            toast('warning', support.message, { timeOut: 15000, extendedTimeOut: 5000 });
+        }
         return;
     }
+
+    const { customProviders, eventSource, eventTypes } = context;
 
     try {
         // SillyTavern works out which extension this call comes from, so there is no extension name to maintain here.

@@ -1,6 +1,6 @@
 {
     "name": "sillytavern-openference",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "private": true,
     "description": "Openference provider extension for SillyTavern. Not an npm package: SillyTavern installs it from the repository.",
     "type": "module",

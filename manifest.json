@@ -1,7 +1,7 @@
 {
     "display_name": "Openference",
     "author": "Openference",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "homePage": "https://github.com/Openference/SillyTavern-Openference",
     "js": "index.js",
     "css": "style.css",
