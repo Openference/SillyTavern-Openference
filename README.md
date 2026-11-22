@@ -16,7 +16,8 @@ Last verified with SillyTavern `staging` at commit `c96a1d0` on 22 November 2026
 ## Install
 
 1. In SillyTavern, open **Extensions > Install extension**.
-2. Paste `https://github.com/Openference/SillyTavern-Openference` and confirm.
+2. Paste `https://github.com/Openference/SillyTavern-Openference` and click **Install just for me** (or **Install for all users** if you are the admin).
+3. SillyTavern asks **Install a third-party extension?** It does this for every extension that does not come from the SillyTavern project. Click **Yes, install it** if you are happy with the source: the code is in this repository, and [What leaves your installation](#what-leaves-your-installation) lists everything the extension sends.
 
 Leave **Branch or tag name** empty to follow the latest version, or enter a release tag such as `v0.1.1` to stay on it. To update later, use **Extensions > Manage extensions**.
 
