@@ -1,0 +1,17 @@
+{
+    "display_name": "Openference",
+    "author": "Openference",
+    "version": "0.1.0",
+    "homePage": "https://github.com/Openference/SillyTavern-Openference",
+    "js": "index.js",
+    "css": "style.css",
+    "loading_order": 100,
+    "auto_update": true,
+    "hooks": {
+        "activate": "onActivate",
+        "enable": "onActivate",
+        "disable": "onDisable",
+        "delete": "onDisable",
+        "clean": "onDisable"
+    }
+}

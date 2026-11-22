@@ -1,0 +1,11 @@
+{
+    "name": "sillytavern-openference",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Openference provider extension for SillyTavern. Not an npm package: SillyTavern installs it from the repository.",
+    "type": "module",
+    "license": "AGPL-3.0-only",
+    "scripts": {
+        "test": "node --test --test-reporter=spec test/*.test.js"
+    }
+}

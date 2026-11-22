@@ -1,0 +1,33 @@
+/* The "Connect with Openference" control inside the provider card. */
+
+.openference-connect {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin: 4px 0;
+}
+
+.openference-connect .openference-button {
+    margin: 0;
+    text-decoration: none;
+}
+
+.openference-user-code {
+    font-size: 1.4em;
+    font-weight: bold;
+    letter-spacing: 0.12em;
+    user-select: all;
+}
+
+.openference-key-row {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+}
+
+.openference-key-row .text_pole {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+}
